@@ -17,9 +17,7 @@ let videos = [
   { id: 2, title: 'About JS - 02', author: 'it-incubatur.ru' },
   { id: 3, title: 'About JS - 03', author: 'it-incubatur.ru' },
   { id: 4, title: 'About JS - 04', author: 'it-incubatur.ru' },
-  { id: 5, title: 'About JS - 05', author: 'it-incubatur.ru' },
-  { id: 6, title: 'About JS - 06', author: 'it-incubatur.ru' },
-  { id: 6, title: 'About JS - 06', author: 'it-incubatur.ru' }
+  { id: 5, title: 'About JS - 05', author: 'it-incubatur.ru' }
 ]
 
 // const port = 3000
