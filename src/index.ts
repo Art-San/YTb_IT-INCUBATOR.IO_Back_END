@@ -1,34 +1,53 @@
-import bodyParser from 'body-parser'
 import express, { Request, Response } from 'express'
-import cors from 'cors'
 
 // создали express app
 const app = express()
 
-const corsMiddlewars = cors()
-app.use(corsMiddlewars)
-const jsonBodyMiddleware = bodyParser.json()
-app.use(jsonBodyMiddleware)
+const port = process.env.PORT || 3001
 
-const port = process.env.PORT || 3000
-
-let videos = [
-  { id: 1, title: 'About JS - 01', author: 'it-incubatur.ru' },
-  { id: 2, title: 'About JS - 02', author: 'it-incubatur.ru' },
-  { id: 3, title: 'About JS - 03', author: 'it-incubatur.ru' },
-  { id: 4, title: 'About JS - 04', author: 'it-incubatur.ru' },
-  { id: 5, title: 'About JS - 05', author: 'it-incubatur.ru' }
+const products = [
+  { id: 1, title: 'tomato', price: '10' },
+  { id: 2, title: 'orange', price: '134' }
+]
+const addresses = [
+  { id: 1, value: 'Nezalejnasti 12' },
+  { id: 2, value: 'Selickaga 11' }
 ]
 
-// const port = 3000
-
-app.get('/', (req: Request, res: Response) => {
-  res.send('Hello IT-INCUBATOR')
+app.get('/products', (req: Request, res: Response) => {
+  if (req.query.title) {
+    let searchString = req.query.title.toString()
+    res.send(products.filter((p) => p.title.indexOf(searchString) > -1))
+  } else {
+    res.send(products)
+  }
+})
+app.get('/products/:id', (req: Request, res: Response) => {
+  const data = req.params.id
+  let product = products.find((p) => p.id === +data)
+  if (product) {
+    res.send(product)
+  } else {
+    res.send(404)
+  }
+})
+app.get('/products/:productTitle', (req: Request, res: Response) => {
+  const data = req.params.productTitle
+  let product = products.find((g) => g.title === data)
+  if (product) {
+    res.send(product)
+  } else {
+    res.send(404)
+  }
 })
 
-app.get('/videos', (req: Request, res: Response) => {
-  const arrName = videos.map((video) => video.title)
-  res.send(arrName)
+app.get('/addresses/:id', (req: Request, res: Response) => {
+  const adress = addresses.find((a) => a.id === Number(req.params.id))
+  if (adress) {
+    res.send(adress)
+  } else {
+    res.send(404)
+  }
 })
 // app.post('/videos', (req: Request, res: Response) => {}
 // app.put('/videos/:videoId', (req: Request, res: Response) => {}
@@ -39,3 +58,9 @@ app.get('/videos', (req: Request, res: Response) => {
 app.listen(port, () => {
   console.log(`Example app listening on port: ${port}`)
 })
+
+// С post- create- создать
+// R get - reade - читать
+// U put - update- обновить
+// D del - delete -удалить
+// 52:50
