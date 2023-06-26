@@ -23,7 +23,7 @@ let videos = [
 // const port = 3000
 
 app.get('/', (req: Request, res: Response) => {
-  res.send('Hello IT-INCUBATOR!!!!')
+  res.send('Hello IT-INCUBATOR')
 })
 
 app.get('/videos', (req: Request, res: Response) => {
