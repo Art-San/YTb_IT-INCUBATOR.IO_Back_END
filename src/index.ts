@@ -17,6 +17,12 @@ const addresses = [
   { id: 2, value: 'Selickaga 11' }
 ]
 
+/*получение всех продуктов первый вар */
+// app.get('/products', (req: Request, res: Response) => {
+//   res.send(products)
+// })
+
+/*(?title=man query параметр) фильтрыция http://localhost:3001/products?title=man  */
 app.get('/products', (req: Request, res: Response) => {
   if (req.query.title) {
     let searchString = req.query.title.toString()
@@ -25,6 +31,8 @@ app.get('/products', (req: Request, res: Response) => {
     res.send(products)
   }
 })
+
+/**получение продукта по :id url params */
 app.get('/products/:id', (req: Request, res: Response) => {
   const data = req.params.id
   let product = products.find((p) => p.id === +data)
@@ -35,6 +43,7 @@ app.get('/products/:id', (req: Request, res: Response) => {
   }
 })
 
+/**удаление по req.params с помощью цикла FOR */
 app.delete('/products/:id', (req: Request, res: Response) => {
   for (let i = 0; i < products.length; i++) {
     if (products[i].id === +req.params.id) {
@@ -45,28 +54,76 @@ app.delete('/products/:id', (req: Request, res: Response) => {
   }
   res.send(404)
 })
-
+/*Создание добавление продукта */
 app.post('/products', (req: Request, res: Response) => {
-  console.log(req.body)
+  const newProdyct = {
+    id: +new Date(),
+    title: req.body.title,
+    price: req.body.price
+  }
+  products.push(newProdyct)
 
-  res.send('пока еще мутим')
+  res.status(201).send(products)
+})
+/*Обновление продукта продукта */
+app.put('/products/:id', (req: Request, res: Response) => {
+  const product = products.find((p) => p.id === +req.params.id)
+  if (product) {
+    product.title = req.body.title
+    product.price = req.body.price
+    res.send(product)
+  } else {
+    res.send(404)
+  }
 })
 
+/*Обновление продукта продукта НАПИСАЛ ИИ */
+// app.put('/products/:id', (req: Request, res: Response) => {
+//   const productId = parseInt(req.params.id)
+//   const productIndex = products.findIndex((p) => p.id === productId)
+
+//   if (productIndex === -1) {
+//     return res.status(404).json({ error: 'Product not found' })
+//   }
+
+//   const { title, price } = req.body
+
+//   if (!title || typeof title !== 'string') {
+//     return res.status(400).json({ error: 'Invalid product title' })
+//   }
+
+//   if (!price || typeof price !== 'string') {
+//     return res.status(400).json({ error: 'Invalid product price' })
+//   }
+
+//   products[productIndex] = {
+//     ...products[productIndex],
+//     title,
+//     price
+//   }
+
+//   // здесь вы можете использовать методы для сохранения изменений в базе данных или файловой системе
+
+//   res.send(products[productIndex])
+// })
+
+/**удаление по req.params с помощью FILTER */
 // app.delete('/products/:id', (req: Request, res: Response) => {
 //   const data = req.params.id
 //   let product = products.filter((p) => p.id !== +data)
 //   res.send(product)
 // })
 
-// app.get('/products/:productTitle', (req: Request, res: Response) => {
-//   const data = req.params.productTitle
-//   let product = products.find((g) => g.title === data)
-//   if (product) {
-//     res.send(product)
-//   } else {
-//     res.send(404)
-//   }
-// })
+/* получение продукта req.params и FIND */
+app.get('/products/:productTitle', (req: Request, res: Response) => {
+  const data = req.params.productTitle
+  let product = products.find((g) => g.title === data)
+  if (product) {
+    res.send(product)
+  } else {
+    res.send(404)
+  }
+})
 
 app.get('/addresses/:id', (req: Request, res: Response) => {
   const adress = addresses.find((a) => a.id === Number(req.params.id))
@@ -76,10 +133,6 @@ app.get('/addresses/:id', (req: Request, res: Response) => {
     res.send(404)
   }
 })
-// app.post('/videos', (req: Request, res: Response) => {}
-// app.put('/videos/:videoId', (req: Request, res: Response) => {}
-// app.get('/videos/:videoId', (req: Request, res: Response) => {}
-// app.delete('/videos/:videoId', (req: Request, res: Response) => {}
 
 // старт app
 app.listen(port, () => {
@@ -90,4 +143,4 @@ app.listen(port, () => {
 // R get - reade - читать
 // U put - update- обновить
 // D del - delete -удалить
-// 52:50
+// 34:23
