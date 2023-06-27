@@ -71,13 +71,33 @@ app.put('/products/:id', (req: Request, res: Response) => {
   if (product) {
     product.title = req.body.title
     product.price = req.body.price
-    res.send(product)
+    // res.send(product)
+    res.send(products)
   } else {
-    res.send(404)
+    // res.send(404)
+    res.status(404).send({ error: 'Product not found' })
   }
 })
 
 /*Обновление продукта продукта НАПИСАЛ ИИ */
+// ====================== вар второй
+// app.put('/products/:id', (req: Request, res: Response) => {
+//   const productId = Number(req.params.id)
+//   const productIndex = products.findIndex((p) => p.id === productId)
+
+//   if (productIndex !== -1) {
+//     products[productIndex] = {
+//       ...products[productIndex],
+//       title: req.body.title,
+//       price: req.body.price
+//     }
+//     res.send(products[productIndex])
+//   } else {
+//     res.status(404).send(`Product with ID ${productId} not found`)
+//   }
+// })
+
+// ====================== вар первый
 // app.put('/products/:id', (req: Request, res: Response) => {
 //   const productId = parseInt(req.params.id)
 //   const productIndex = products.findIndex((p) => p.id === productId)
