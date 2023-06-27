@@ -2,12 +2,15 @@ import express, { Request, Response } from 'express'
 
 // создали express app
 const app = express()
+app.use(express.json())
 
 const port = process.env.PORT || 3001
 
 const products = [
   { id: 1, title: 'tomato', price: '10' },
-  { id: 2, title: 'orange', price: '134' }
+  { id: 2, title: 'orange', price: '134' },
+  { id: 3, title: 'persik', price: '155' },
+  { id: 4, title: 'mango', price: '200' }
 ]
 const addresses = [
   { id: 1, value: 'Nezalejnasti 12' },
@@ -31,15 +34,39 @@ app.get('/products/:id', (req: Request, res: Response) => {
     res.send(404)
   }
 })
-app.get('/products/:productTitle', (req: Request, res: Response) => {
-  const data = req.params.productTitle
-  let product = products.find((g) => g.title === data)
-  if (product) {
-    res.send(product)
-  } else {
-    res.send(404)
+
+app.delete('/products/:id', (req: Request, res: Response) => {
+  for (let i = 0; i < products.length; i++) {
+    if (products[i].id === +req.params.id) {
+      products.splice(i, 1)
+      res.send(204)
+      return
+    }
   }
+  res.send(404)
 })
+
+app.post('/products', (req: Request, res: Response) => {
+  console.log(req.body)
+
+  res.send('пока еще мутим')
+})
+
+// app.delete('/products/:id', (req: Request, res: Response) => {
+//   const data = req.params.id
+//   let product = products.filter((p) => p.id !== +data)
+//   res.send(product)
+// })
+
+// app.get('/products/:productTitle', (req: Request, res: Response) => {
+//   const data = req.params.productTitle
+//   let product = products.find((g) => g.title === data)
+//   if (product) {
+//     res.send(product)
+//   } else {
+//     res.send(404)
+//   }
+// })
 
 app.get('/addresses/:id', (req: Request, res: Response) => {
   const adress = addresses.find((a) => a.id === Number(req.params.id))
