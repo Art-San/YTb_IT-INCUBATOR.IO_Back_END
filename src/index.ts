@@ -20,4 +20,7 @@ app.listen(port, () => {
 // R get - reade - читать
 // U put - update- обновить
 // D del - delete -удалить
-// 34:23
+
+// Presentation Layer
+// Business Layer
+// Data Access Layer
