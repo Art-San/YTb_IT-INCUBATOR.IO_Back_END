@@ -22,7 +22,6 @@ productsRouter.post('/', (req: Request, res: Response) => {
 /**получение продукта по :id url params */
 productsRouter.get('/:id', (req: Request, res: Response) => {
   const product = productsRepository.getProductById(+req.params.id)
-
   res.send(product)
 })
 
