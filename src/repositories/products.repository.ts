@@ -25,7 +25,11 @@ export const productsRepository = {
   },
   getProductById(id: number) {
     let product = products.find((p) => p.id === id)
-    return product
+    if (product) {
+      return product
+    } else {
+      return 404
+    }
   },
   updateProduct(id: number, title: string, price: string) {
     const product = products.find((p) => p.id === id)
