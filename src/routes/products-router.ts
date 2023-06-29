@@ -1,3 +1,4 @@
+// Presentation Layer
 import { Router, Request, Response } from 'express'
 import { productsRepository } from '../repositories/products.repository'
 
@@ -21,7 +22,7 @@ productsRouter.post('/', (req: Request, res: Response) => {
 
 /**получение продукта по :id url params */
 productsRouter.get('/:id', (req: Request, res: Response) => {
-  const product = productsRepository.getProductById(+req.params.id)
+  const product = productsRepository.findProductById(+req.params.id)
   res.send(product)
 })
 
@@ -29,19 +30,16 @@ productsRouter.get('/:id', (req: Request, res: Response) => {
 productsRouter.put('/:id', (req: Request, res: Response) => {
   const id = +req.params.id
   const { title, price } = req.body
-  const allProducts = productsRepository.updateProduct(id, title, price)
-  res.send(allProducts)
+  const isUpdated = productsRepository.updateProduct(id, title, price)
+  if (isUpdated) {
+    res.send(productsRepository.findProductById(id))
+  } else {
+    res.send(404)
+  }
 })
 
 /**удаление по req.params с помощью цикла FOR */
 productsRouter.delete('/:id', (req: Request, res: Response) => {
-  const answer = productsRepository.deleteProduct(+req.params.id)
-  // for (let i = 0; i < products.length; i++) {
-  //   if (products[i].id === +req.params.id) {
-  //     products.splice(i, 1)
-  //     res.send(204)
-  //     return
-  //   }
-  // }
+  const answer = productsRepository.removeProduct(+req.params.id)
   res.send(answer)
 })
