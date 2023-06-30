@@ -7,19 +7,44 @@ const app = express()
 
 const port = process.env.PORT || 3001
 
-app.get(
-  '/products',
-  (req: Request, res: Response, next: NextFunction) => {
-    // @ts-ignore
-    req.blabla = 'hellou'
+let blablaMiddleware = (req: Request, res: Response, next: NextFunction) => {
+  // @ts-ignore
+  req.blabla = 'hellou'
+  next()
+}
+let authGuardMiddleware = (req: Request, res: Response, next: NextFunction) => {
+  if (req.query.token === '123') {
     next()
-  },
-  (req: Request, res: Response) => {
-    // @ts-ignore
-    const blabla = req.blabla
-    res.send({ value: blabla })
+  } else {
+    res.send(401)
   }
-)
+}
+let requestCounter = 0
+let requestCountMiddleware = (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  requestCounter++
+  next()
+}
+
+app.use(requestCountMiddleware) // расположение мидлвер имеет значение
+app.use(blablaMiddleware) // Если мидлвар нужен для всех эндпоинтов
+app.use(authGuardMiddleware)
+
+// app.get('/products', blablaMiddleware, (req: Request, res: Response) => {
+// Если мидлвар нужен для одного эндпоинта
+app.get('/products', (req: Request, res: Response) => {
+  // @ts-ignore
+  const blabla = req.blabla
+  res.send({ value: blabla + '!!! ' + requestCounter })
+})
+app.get('/users', (req: Request, res: Response) => {
+  // @ts-ignore
+  const blabla = req.blabla
+  res.send({ value: blabla + 'from users !!! ' + requestCounter })
+})
 
 // старт app
 app.listen(port, () => {
