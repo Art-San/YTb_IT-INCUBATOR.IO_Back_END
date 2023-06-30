@@ -24,7 +24,7 @@ export const productsRepository = {
       price: price
     }
     products.push(newProdyct)
-    return products
+    return newProdyct
   },
   findProductById(id: number) {
     let product = products.find((p) => p.id === id)

@@ -15,7 +15,8 @@
   "dependencies": {
     "body-parser": "^1.19.2",
     "cors": "^2.8.5",
-    "express": "^4.17.3"
+    "express": "^4.17.3",
+    "express-validator": "^7.0.1"
   },
   "devDependencies": {
     "@types/cors": "^2.8.12",
